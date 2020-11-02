@@ -13,9 +13,6 @@ RSpec.describe User, type: :model do
         およびbirthが存在すれば登録できる" do
           expect(@user).to be_valid
         end
-        it "passwordが6文字以上の英数字混みであれば登録できる" do
-          expect(@user).to be_valid
-        end
       end
   
       context '新規登録がうまくいかないとき' do
@@ -46,8 +43,18 @@ RSpec.describe User, type: :model do
           @user.valid?
           expect(@user.errors.full_messages).to include("Password can't be blank")
         end
-        it "passwordが英数字混合でなければ登録できない" do
+        it "passwordが数字のみであれば登録できない" do
           @user.password = "000000"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+        end
+        it "passwordが半角英字のみであれば登録できない" do
+          @user.password = "aaaaaa"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+        end
+        it "passwordに全角英字が含まれるため登録できない" do
+          @user.password = "Ａaaaa0"
           @user.valid?
           expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
         end
@@ -71,23 +78,113 @@ RSpec.describe User, type: :model do
           @user.valid?
           expect(@user.errors.full_messages).to include("Last name can't be blank")
         end
+        it "first_nameに半角英字が含まれるため登録できない" do
+          @user.first_name = "a"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("First name is invalid")
+        end
+        it "last_nameに半角英字が含まれるため登録できない" do
+          @user.last_name = "a"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("Last name is invalid")
+        end
+        it "first_nameに全角英字が含まれるため登録できない" do
+          @user.first_name = "Ａ"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("First name is invalid")
+        end
+        it "last_nameに全角英字が含まれるため登録できない" do
+          @user.last_name = "Ａ"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("Last name is invalid")
+        end
+        it "first_nameに半角カタカナが含まれるため登録できない" do
+          @user.first_name = "ｱ"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("First name is invalid")
+        end
+        it "last_nameに半角カタカナが含まれるため登録できない" do
+          @user.last_name = "ｱ"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("Last name is invalid")
+        end
+        it "first_nameに数字が含まれるため登録できない" do
+          @user.first_name = "1"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("First name is invalid")
+        end
+        it "last_nameに数字が含まれるため登録できない" do
+          @user.last_name = "1"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("Last name is invalid")
+        end
         it "first_name_kanaが空では登録できない" do
           @user.first_name_kana = ""
           @user.valid?
-          expect(@user.errors.full_messages).to include("First name kana can't be blank")
+          expect(@user.errors.full_messages).to include("First name kana is invalid")
         end
         it "last_name_kanaが空では登録できない" do
           @user.last_name_kana = ""
           @user.valid?
-          expect(@user.errors.full_messages).to include("Last name kana can't be blank")
+          expect(@user.errors.full_messages).to include("Last name kana is invalid")
         end
-        it "first_name_kanaが全角カタカナではないので登録できない" do
+        it "first_name_kanaにひらがなが含まれるため登録できない" do
           @user.first_name_kana = "あ"
           @user.valid?
           expect(@user.errors.full_messages).to include("First name kana is invalid")
         end
-        it "last_name_kanaが全角カタカナではないので登録できない" do
+        it "last_name_kanaにひらがなが含まれるため登録できない" do
           @user.last_name_kana = "あ"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("Last name kana is invalid")
+        end
+        it "first_name_kanaに漢字が含まれるため登録できない" do
+          @user.first_name_kana = "亜"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("First name kana is invalid")
+        end
+        it "last_name_kanaに漢字が含まれるため登録できない" do
+          @user.last_name_kana = "亜"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("Last name kana is invalid")
+        end
+        it "first_name_kanaに半角カタカナが含まれるため登録できない" do
+          @user.first_name_kana = "ｱ"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("First name kana is invalid")
+        end
+        it "last_name_kanaに半角カタカナが含まれるため登録できない" do
+          @user.last_name_kana = "ｱ"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("Last name kana is invalid")
+        end
+        it "first_name_kanaに半角英字が含まれるため登録できない" do
+          @user.first_name_kana = "a"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("First name kana is invalid")
+        end
+        it "last_name_kanaに半角英字が含まれるため登録できない" do
+          @user.last_name_kana = "a"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("Last name kana is invalid")
+        end
+        it "first_name_kanaに全角英字が含まれるため登録できない" do
+          @user.first_name_kana = "ａ"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("First name kana is invalid")
+        end
+        it "last_name_kanaに全角英字が含まれるため登録できない" do
+          @user.last_name_kana = "ａ"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("Last name kana is invalid")
+        end
+        it "first_name_kanaに数字が含まれるため登録できない" do
+          @user.first_name_kana = "1"
+          @user.valid?
+          expect(@user.errors.full_messages).to include("First name kana is invalid")
+        end
+        it "last_name_kanaに数字が含まれるため登録できない" do
+          @user.last_name_kana = "1"
           @user.valid?
           expect(@user.errors.full_messages).to include("Last name kana is invalid")
         end
