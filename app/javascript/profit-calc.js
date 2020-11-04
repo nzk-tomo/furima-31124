@@ -3,7 +3,8 @@ addEventListener('load', () => {
       tax = document.getElementById("add-tax-price"),
       profit = document.getElementById("profit")
   price.addEventListener("input",() => {
-    let e = document.getElementById("item-price").value;
+    e = document.getElementById("item-price").value.replace( /[０-９]/g,function(s){
+      return String.fromCharCode(s.charCodeAt(0) - 0xFEE0)});
     tax.innerHTML = Math.floor(e * 0.1).toLocaleString()
     profit.innerHTML = Math.floor(e * 0.9).toLocaleString()
   })
