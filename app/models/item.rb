@@ -29,4 +29,12 @@ class Item < ApplicationRecord
     validates :ship_from_id
     validates :delivery_date_id
   end
+
+  def previous
+    Item.where("id < ?", self.id).order("id DESC").first
+  end
+  def next
+    Item.where("id > ?", self.id).order("id ASC").first
+  end
+  
 end
