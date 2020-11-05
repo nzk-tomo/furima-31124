@@ -1,5 +1,8 @@
 class ItemsController < ApplicationController
 before_action :authenticate_user! , except:[:index, :show]
+before_action :move_to_index, only: [:edit]
+before_action :set_prototype, only: [:edit, :update, :show]
+
   def index
     @items = Item.order("created_at DESC")
   end
@@ -18,7 +21,17 @@ before_action :authenticate_user! , except:[:index, :show]
   end
 
   def show
-    @item = Item.find(params[:id])
+  end
+
+  def edit
+  end
+
+  def update
+    if @item.update(item_params)
+      redirect_to item_path
+    else
+      render :edit
+    end
   end
 
   private
@@ -27,5 +40,16 @@ before_action :authenticate_user! , except:[:index, :show]
     params.require(:item).permit(:image,:name,:description,:price,:category_id,
       :condition_id,:shipping_fee_id,:ship_from_id,:delivery_date_id)
       .merge(user_id: current_user.id)
+  end
+
+  def move_to_index
+    @item = Item.find(params[:id])
+    unless user_signed_in? && current_user.id == @item.user_id
+      redirect_to root_path
+    end
+  end
+
+  def set_prototype
+    @item = Item.find(params[:id])
   end
 end
