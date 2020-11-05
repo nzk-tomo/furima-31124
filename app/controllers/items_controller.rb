@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
 before_action :authenticate_user! , except:[:index, :show]
 before_action :move_to_index, only: [:edit]
-before_action :set_prototype, only: [:edit, :update, :show]
+before_action :set_item, only: [:edit, :update, :show, :destroy]
 
   def index
     @items = Item.order("created_at DESC")
@@ -34,6 +34,14 @@ before_action :set_prototype, only: [:edit, :update, :show]
     end
   end
 
+  def destroy
+    if user_signed_in? && current_user.id == @item.user_id
+      @item.destroy
+      redirect_to root_path
+    else
+      render :show
+    end
+  end
   private
 
   def item_params
@@ -49,7 +57,7 @@ before_action :set_prototype, only: [:edit, :update, :show]
     end
   end
 
-  def set_prototype
+  def set_item
     @item = Item.find(params[:id])
   end
 end
