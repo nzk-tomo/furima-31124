@@ -3,22 +3,23 @@ class TradesController < ApplicationController
     @item = Item.find(params[:item_id])
   end
 
-  def new
-  end
-
   def create
-    @trade = Trade.new(trade_params)
-    if @trade.save
+    @item_trade = ItemTrade.new(trade_params) 
+
+    if @item_trade.save
       redirect_to root_path
     else
-      render action: :index
+      render :index
     end
   end
 
   private
 
   def trade_params
-    params.require(:address).permit(:trade_id, :postal_code, :prefecture_id, :city, :address, :building, :phone_number)
-    # .merge(user_id: current_user.id, item_id: params[:item_id])
+    params.permit(:postal_code, :prefecture_id, :city, :address, :building, :phone_number, :user_id, :item_id).merge(user_id: current_user.id)
   end
+
+  # def address_params(trade)
+  #   params.permit(:postal_code, :prefecture, :city, :house_number, :building_name).merge(trade_id: trade.id)
+  # end
 end
