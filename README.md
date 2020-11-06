@@ -13,7 +13,7 @@
 
 ### Association
 
- - has_many :buyers
+ - has_many :trades
  - has_many :items 
  - has_many :comments
 
@@ -34,10 +34,10 @@
 ### Association
 
  - belongs_to :user
- - has_one :buyer
+ - has_one :trade
  - has_many :comments, dependent: :destroy
 
-## buyers テーブル
+## trades テーブル
 
 | Column | Type       | Options                        |
 | ------ | ---------- | ------------------------------ |
@@ -54,7 +54,7 @@
 
 | Column        | Type       | Options                        |
 | --------------| ---------- | ------------------------------ |
-| buyer         | references | null: false, foreign_key: true |
+| trade         | references | null: false, foreign_key: true |
 | postal_cord   | string     | null: false                    |
 | prefecture_id | integer    | null: false                    |
 | city          | string     | null: false                    |
@@ -64,7 +64,7 @@
 
 ### Association
 
- - belongs_to :buyer
+ - belongs_to :trade
 
 ## comments テーブル
 
