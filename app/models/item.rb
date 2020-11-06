@@ -20,7 +20,7 @@ class Item < ApplicationRecord
   belongs_to :category
   belongs_to :condition
   belongs_to :shipping_fee
-  belongs_to :prefecture
+  belongs_to :prefectures
   belongs_to :delivery_date
   
   with_options exclusion: { in:[1], message: "Select"} do
