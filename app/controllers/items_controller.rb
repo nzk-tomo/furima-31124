@@ -42,6 +42,7 @@ before_action :set_item, only: [:edit, :update, :show, :destroy]
       render :show
     end
   end
+
   private
 
   def item_params
@@ -52,7 +53,8 @@ before_action :set_item, only: [:edit, :update, :show, :destroy]
 
   def move_to_index
     @item = Item.find(params[:id])
-    unless user_signed_in? && current_user.id == @item.user_id
+    @trade = Trade.find_by(item_id: @item.id)
+    unless user_signed_in? && current_user.id == @item.user_id && @trade.nil?
       redirect_to root_path
     end
   end

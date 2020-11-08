@@ -1,7 +1,10 @@
 class TradesController < ApplicationController
+  before_action :authenticate_user! , only:[:index]
+  before_action :move_to_root, only: [:index]
+
   def index
     @item = Item.find(params[:item_id])
-    
+    @item_trade = ItemTrade.new
   end
 
   def create
@@ -19,11 +22,21 @@ class TradesController < ApplicationController
   private
 
   def trade_params
-    params.permit(:postal_code, :prefecture_id, :city, :address, :building, :phone_number, :user_id, :item_id, :token).merge(user_id: current_user.id, token: params[:token])
+    params.require(:item_trade)
+    .permit(:postal_code, :prefecture_id, :city, :address, :building, :phone_number, :user_id, :item_id, :token)
+    .merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
+  end
+
+  def move_to_root
+    @item = Item.find(params[:item_id])
+    @trade = Trade.find_by(item_id: @item.id)
+    if user_signed_in? && current_user.id == @item.user_id || @trade.present?
+      redirect_to root_path
+    end
   end
 
   def pay_item
-    Payjp.api_key = "テスト秘密鍵"
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
       amount: @item.price,
       card: @item_trade.token,
