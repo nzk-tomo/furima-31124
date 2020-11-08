@@ -7,12 +7,11 @@ class User < ApplicationRecord
   has_many :items
   has_many :trades
 
-  
-  VALID_PASSWORD_REGEX = /\A[a-z0-9]+\z/i
+  VALID_PASSWORD_REGEX = /\A[a-z0-9]+\z/i.freeze
   validates :password, format: { with: VALID_PASSWORD_REGEX }
 
-  VALID_NAME_REGEX = /\A[ぁ-んァ-ン一-龥]+\z/
-  VALID_NAME_KANA_REGEX = /\A[ァ-ヶー－]+\z/
+  VALID_NAME_REGEX = /\A[ぁ-んァ-ン一-龥]+\z/.freeze
+  VALID_NAME_KANA_REGEX = /\A[ァ-ヶー－]+\z/.freeze
   with_options presence: true do
     validates :nickname
     validates :first_name,      format: { with: VALID_NAME_REGEX }
