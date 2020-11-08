@@ -4,11 +4,11 @@ class ItemTrade
   attr_accessor :postal_code, :prefecture_id, :city, :address, :building, :phone_number, :user_id, :item_id, :token
 
   with_options presence: true do
-    validates :postal_code, format: { with: /\A\d{3}[-]\d{4}\z/ }
+    validates :postal_code, format: { with: /\A\d{3}[-]\d{4}\z/ ,message: "Input correctly"}
     validates :prefecture_id
     validates :city
     validates :address
-    validates :phone_number, format: { with: /\A\d{10,11}\z/ }
+    validates :phone_number, format: { with: /\A\d{10,11}\z/ ,message: "Input only number"}
     validates :token
   end
 
