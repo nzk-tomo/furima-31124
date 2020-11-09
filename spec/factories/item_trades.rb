@@ -10,5 +10,7 @@ FactoryBot.define do
     address { a.town.kanji }
     building = ''
     phone_number { Faker::Number.leading_zero_number(digits: 10) }
+    item_id {association :item}
+    user_id {association :user}
   end
 end

@@ -1,14 +1,13 @@
 class TradesController < ApplicationController
   before_action :authenticate_user!, only: [:index]
   before_action :move_to_root, only: [:index]
+  before_action :set_trade, only: [:index, :create]
 
   def index
-    @item = Item.find(params[:item_id])
     @item_trade = ItemTrade.new
   end
 
   def create
-    @item = Item.find(params[:item_id])
     @item_trade = ItemTrade.new(trade_params)
     if @item_trade.valid?
       pay_item
@@ -29,8 +28,11 @@ class TradesController < ApplicationController
 
   def move_to_root
     @item = Item.find(params[:item_id])
-    @trade = Trade.find_by(item_id: @item.id)
-    redirect_to root_path if user_signed_in? && current_user.id == @item.user_id || @trade.present?
+    redirect_to root_path if current_user.id == @item.user_id || @item.trade.present?
+  end
+
+  def set_trade
+    @item = Item.find(params[:item_id])
   end
 
   def pay_item
