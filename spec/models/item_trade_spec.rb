@@ -34,6 +34,11 @@ RSpec.describe ItemTrade, type: :model do
           @item_trade.valid?
           expect(@item_trade.errors.full_messages).to include('Postal code Input correctly')
         end
+        it 'postal_codeが字数以上のとき保存ができないこと' do
+          @item_trade.postal_code = '123-45678'
+          @item_trade.valid?
+          expect(@item_trade.errors.full_messages).to include('Postal code Input correctly')
+        end
         it 'postal_codeに正規表現外の文字列が入力されたとき保存ができないこと' do
           @item_trade.postal_code = '１２３−４５６７'
           @item_trade.valid?
@@ -66,6 +71,11 @@ RSpec.describe ItemTrade, type: :model do
         end
         it 'phone_numberの入力が字数以下であるとき保存ができないこと' do
           @item_trade.phone_number = '000'
+          @item_trade.valid?
+          expect(@item_trade.errors.full_messages).to include('Phone number Input only number')
+        end
+        it 'phone_numberの入力が字数以上であるとき保存ができないこと' do
+          @item_trade.phone_number = '090123456789'
           @item_trade.valid?
           expect(@item_trade.errors.full_messages).to include('Phone number Input only number')
         end

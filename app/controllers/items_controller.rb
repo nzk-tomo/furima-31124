@@ -54,7 +54,7 @@ class ItemsController < ApplicationController
   def move_to_index
     @item = Item.find(params[:id])
     @trade = Trade.find_by(item_id: @item.id)
-    redirect_to root_path unless user_signed_in? && current_user.id == @item.user_id && @trade.nil?
+    redirect_to root_path unless user_signed_in? && current_user.id == @item.user_id || @trade.nil?
   end
 
   def set_item

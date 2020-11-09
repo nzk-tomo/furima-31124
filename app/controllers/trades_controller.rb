@@ -1,7 +1,7 @@
 class TradesController < ApplicationController
   before_action :authenticate_user!, only: [:index]
-  before_action :move_to_root, only: [:index]
   before_action :set_trade, only: [:index, :create]
+  before_action :move_to_root, only: [:index]
 
   def index
     @item_trade = ItemTrade.new
@@ -26,14 +26,14 @@ class TradesController < ApplicationController
           .merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
   end
 
-  def move_to_root
-    @item = Item.find(params[:item_id])
-    redirect_to root_path if current_user.id == @item.user_id || @item.trade.present?
-  end
-
   def set_trade
     @item = Item.find(params[:item_id])
   end
+
+  def move_to_root
+    redirect_to root_path if current_user.id == @item.user_id || @item.trade.present?
+  end
+
 
   def pay_item
     Payjp.api_key = ENV['PAYJP_SECRET_KEY']
