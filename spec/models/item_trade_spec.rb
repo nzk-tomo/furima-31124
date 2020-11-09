@@ -3,8 +3,7 @@ require 'rails_helper'
 RSpec.describe ItemTrade, type: :model do
   describe '#create' do
     before do
-      item = FactoryBot.build(:item)
-      @item_trade = FactoryBot.build(:item_trade, item_id: item.id, user_id: item.user_id)
+      @item_trade = FactoryBot.build(:item_trade)
     end
 
     describe '商品購入' do
@@ -74,6 +73,16 @@ RSpec.describe ItemTrade, type: :model do
           @item_trade.phone_number = '０９０１２３４５６７８'
           @item_trade.valid?
           expect(@item_trade.errors.full_messages).to include('Phone number Input only number')
+        end
+        it 'user_idが空白だと保存できないこと' do
+          @item_trade.user_id = nil
+          @item_trade.valid?
+          expect(@item_trade.errors.full_messages).to include("User can't be blank")
+        end
+        it 'item_idが空白だと保存できないこと' do
+          @item_trade.item_id = nil
+          @item_trade.valid?
+          expect(@item_trade.errors.full_messages).to include("Item can't be blank")
         end
       end
     end
