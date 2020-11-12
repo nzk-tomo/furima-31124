@@ -18,17 +18,10 @@
         <p>
           クリックしてファイルをアップロード
         </p>
-        <%# <%= f.file_field :images, name: 'message[images][]', id:"item-image" %>
-        <div class="drag-and-drop-area drag-and-drop-area-out">
-          <span>
-            <i class="fa fa-image"></i>
-            Drag and drop your files
-          </span>
-        </div>
+        <%= f.file_field :image, id:"item-image" %>
       </div>
-      <ul>
-      <div id="image-list" class="image-list"></div>
-      </ul>
+      <div id="image-list" class="image-list">
+      </div>
     </div>
 
     <div class="new-items">
