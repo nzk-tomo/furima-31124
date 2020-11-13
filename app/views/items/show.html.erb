@@ -77,31 +77,48 @@
       </div>
     </div>
   </div>
+</div>
   <%# /商品の概要 %>
 
-  <div class="comment-box">
-    <form>
-      <textarea class="comment-text"></textarea>
-      <p class="comment-warn">
-        相手のことを考え丁寧なコメントを心がけましょう。
-        <br>
-        不快な言葉遣いなどは利用制限や退会処分となることがあります。
-      </p>
+  <%# コメント内容 %>
+  <% if @comments %>
+    <% @comments.each do |comment| %>
+      <li class="comments_list">
+        <div class="comment_user" >
+        <% if comment.user.id == comment.item.user_id %>
+          <%= comment.id %>  <span class=seller_user>☆出品者: <%= comment.user.nickname %></span>  <%= l comment.created_at%>
+        <% else %>
+          <%= comment.id %>  <span class=ordinary_user><%= comment.user.nickname %></span>  <%= l comment.created_at%>
+        <% end%>
+        </div>
+        <%= simple_format(comment.comment) %>
+      </li>
+    <% end %>
+  <% end%>
+  <%# /コメント内容 %>
+
+<div class="comment-box">
+  <div class="comment-block">
+    <%= form_with(model:[@item, @comment], local: true) do |f|%>
+      <div class="comment-text">
+        <%= f.label :comment,"コメントを書き込む"%>
+      </div>
+      <%= f.text_area :comment, class:"comment-frame", placeholder:"※不適切な発言・個人への誹謗中傷などは利用制限や退会処分の対象となる場合があります" %>
       <button type="submit" class="comment-btn">
         <%= image_tag "comment.png" ,class:"comment-flag-icon" ,width:"20",height:"25"%>
         <span>コメントする<span>
       </button>
-    </form>
-  </div>
-  <div class="links">
-  <% if @item.previous.present? %>
-    <%= link_to "＜ 前の商品", item_path(@item.previous), class: "change-item-btn"%>
-  <% end %>
-    <% if @item.next.present? %>
-      <%= link_to "後ろの商品 ＞",item_path(@item.next), class: "change-item-btn" %>
     <% end %>
+    <div class="links">
+      <% if @item.previous.present? %>
+        <%= link_to "＜ 前の商品", item_path(@item.previous), class: "change-item-btn"%>
+      <% end %>
+      <% if @item.next.present? %>
+        <%= link_to "後ろの商品 ＞",item_path(@item.next), class: "change-item-btn" %>
+      <% end %>
+    </div>
+    <a href="#" class='another-item'><%= "商品のカテゴリー名" %>をもっと見る</a>
   </div>
-  <a href="#" class='another-item'><%= "商品のカテゴリー名" %>をもっと見る</a>
 </div>
 
 <%= render "shared/footer" %>
