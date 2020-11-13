@@ -11,6 +11,15 @@ ja:
         shipping_fee_id: 配送料の負担
         ship_from_id: 発送元の地域
         delivery_date_id: 発送までの日数
+  activemodel:
+    attributes:
+      item_trade:
+        token: クレジットカード情報
+        postal_code: 郵便番号
+        prefecture_id: 都道府県
+        city: 市区町村
+        address: 番地
+        phone_number: 電話番号
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'

@@ -36,7 +36,7 @@
     <% end %>
 
     <div class="item-explain-box">
-      <span><%= @item.description %></span>
+      <span><%= simple_format(@item.description) %></span>
     </div>
     <table class="detail-table">
       <tbody>
@@ -86,9 +86,9 @@
       <li class="comments_list">
         <div class="comment_user" >
         <% if comment.user.id == comment.item.user_id %>
-          <%= comment.id %>  <span class=seller_user>☆出品者: <%= comment.user.nickname %></span>  <%= l comment.created_at%>
+          <span class=seller_user>☆出品者: <%= comment.user.nickname %></span>  <%= l comment.created_at%>
         <% else %>
-          <%= comment.id %>  <span class=ordinary_user><%= comment.user.nickname %></span>  <%= l comment.created_at%>
+          <span class=ordinary_user><%= comment.user.nickname %></span>  <%= l comment.created_at%>
         <% end%>
         </div>
         <%= simple_format(comment.comment) %>
