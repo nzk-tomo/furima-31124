@@ -39,47 +39,47 @@ RSpec.describe Item, type: :model do
         it 'priceが全角数字だと登録できない' do
           @item.price = '３００'
           @item.valid?
-          expect(@item.errors.full_messages).to include('Price Half-width number')
+          expect(@item.errors.full_messages).to include('Price を半角数字で入力願います')
         end
         it 'priceが文字列だと登録できない' do
           @item.price = 'a'
           @item.valid?
-          expect(@item.errors.full_messages).to include('Price Half-width number')
+          expect(@item.errors.full_messages).to include('Price を半角数字で入力願います')
         end
         it 'priceが300より小さいと登録できない' do
           @item.price = 299
           @item.valid?
-          expect(@item.errors.full_messages).to include('Price Out of setting range')
+          expect(@item.errors.full_messages).to include('Price を範囲内に設定願います')
         end
         it 'priceが9999999より大きいと登録できない' do
           @item.price = 10_000_000
           @item.valid?
-          expect(@item.errors.full_messages).to include('Price Out of setting range')
+          expect(@item.errors.full_messages).to include('Price を範囲内に設定願います')
         end
         it 'category_idが1だと登録できない' do
           @item.category_id = 1
           @item.valid?
-          expect(@item.errors.full_messages).to include('Category Select')
+          expect(@item.errors.full_messages).to include('Category を選択してください')
         end
         it 'condition_idが1だと登録できない' do
           @item.condition_id = 1
           @item.valid?
-          expect(@item.errors.full_messages).to include('Condition Select')
+          expect(@item.errors.full_messages).to include('Condition を選択してください')
         end
         it 'shipping_fee_idが1だと登録できない' do
           @item.shipping_fee_id = 1
           @item.valid?
-          expect(@item.errors.full_messages).to include('Shipping fee Select')
+          expect(@item.errors.full_messages).to include('Shipping fee を選択してください')
         end
         it 'ship_from_idが1だと登録できない' do
           @item.ship_from_id = 1
           @item.valid?
-          expect(@item.errors.full_messages).to include('Ship from Select')
+          expect(@item.errors.full_messages).to include('Ship from を選択してください')
         end
         it 'delivery_date_idが1だと登録できない' do
           @item.delivery_date_id = 1
           @item.valid?
-          expect(@item.errors.full_messages).to include('Delivery date Select')
+          expect(@item.errors.full_messages).to include('Delivery date を選択してください')
         end
         it 'userが紐付いていないと保存できないこと' do
           @item.user = nil
