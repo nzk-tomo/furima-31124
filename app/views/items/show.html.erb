@@ -99,6 +99,7 @@
 
 <div class="comment-box">
   <div class="comment-block">
+  <% if user_signed_in? %>
     <%= form_with(model:[@item, @comment], local: true) do |f|%>
       <div class="comment-text">
         <%= f.label :comment,"コメントを書き込む"%>
@@ -109,15 +110,16 @@
         <span>コメントする<span>
       </button>
     <% end %>
-    <div class="links">
-      <% if @item.previous.present? %>
-        <%= link_to "＜ 前の商品", item_path(@item.previous), class: "change-item-btn"%>
-      <% end %>
-      <% if @item.next.present? %>
-        <%= link_to "後ろの商品 ＞",item_path(@item.next), class: "change-item-btn" %>
-      <% end %>
-    </div>
-    <a href="#" class='another-item'><%= "商品のカテゴリー名" %>をもっと見る</a>
+  <% end %>
+  <div class="links">
+    <% if @item.previous.present? %>
+      <%= link_to "＜ 前の商品", item_path(@item.previous), class: "change-item-btn"%>
+    <% end %>
+    <% if @item.next.present? %>
+      <%= link_to "後ろの商品 ＞",item_path(@item.next), class: "change-item-btn" %>
+    <% end %>
+  </div>
+  <a href="#" class='another-item'><%= "商品のカテゴリー名" %>をもっと見る</a>
   </div>
 </div>
 
