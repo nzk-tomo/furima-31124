@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   has_many :items
   has_many :trades
-  has_many :comments
+  has_many :comments, dependent: :destroy
 
   VALID_PASSWORD_REGEX = /\A[a-z0-9]+\z/i.freeze
   validates :password, format: { with: VALID_PASSWORD_REGEX }
